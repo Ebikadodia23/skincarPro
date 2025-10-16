@@ -34,16 +34,17 @@ export interface User {
 }
 
 export interface PredictionResults {
-  id: string;
+  id?: string;
   predictions: Record<string, number>;
   landmarks?: Array<{
     id: number;
     x: number;
     y: number;
-    z: number;
+    z?: number;
     zone: string;
   }>;
   heatmap_data?: string;
+  heatmap_b64?: string;
   explanations?: Array<{
     condition: string;
     score: number;
@@ -52,6 +53,8 @@ export interface PredictionResults {
     recommendations: string[];
   }>;
   confidence_score?: number;
+  confidence?: string;
+  timestamp?: string;
   zone_scores?: Record<string, number>;
   skin_tone_analysis?: Record<string, any>;
   dominant_conditions?: string[];
@@ -64,7 +67,8 @@ export interface PredictionResults {
     reason: string;
   }>;
   processing_time?: number;
-  created_at: string;
+  created_at?: string;
+  originalImage?: string;
 }
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {

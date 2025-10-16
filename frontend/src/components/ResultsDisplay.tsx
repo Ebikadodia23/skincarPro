@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, RotateCcw, Download, Info, Eye, EyeOff, Zap } from 'lucide-react';
-import { PredictionResults } from '../App';
+import { PredictionResults } from '../AppRoutes';
 
 interface ResultsDisplayProps {
   results: PredictionResults;
@@ -21,7 +21,6 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Render combined image with heatmap overlay
   useEffect(() => {
@@ -66,7 +65,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
   const drawLandmarks = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
     if (!results.landmarks) return;
 
-    results.landmarks.forEach((landmark) => {
+    results.landmarks.forEach((landmark: any) => {
       const x = landmark.x * width;
       const y = landmark.y * height;
       
@@ -124,11 +123,11 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
   const downloadReport = () => {
     // Create a comprehensive report
     const reportData = {
-      timestamp: results.timestamp,
-      confidence: results.confidence,
+      timestamp: results.timestamp || new Date().toISOString(),
+      confidence: results.confidence || 'medium',
       predictions: results.predictions,
-      explanations: results.explanations,
-      zone_scores: results.zone_scores
+      explanations: results.explanations || [],
+      zone_scores: results.zone_scores || {}
     };
     
     const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
@@ -224,7 +223,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                 let closestZone = null;
                 let minDistance = Infinity;
                 
-                results.landmarks.forEach((landmark) => {
+                results.landmarks?.forEach((landmark: any) => {
                   const distance = Math.sqrt(
                     Math.pow(landmark.x - x, 2) + Math.pow(landmark.y - y, 2)
                   );
@@ -251,7 +250,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                   results.confidence === 'medium' ? 'bg-amber-100 text-amber-700' :
                   'bg-red-100 text-red-700'
                 }`}>
-                  {results.confidence.charAt(0).toUpperCase() + results.confidence.slice(1)} Confidence
+                  {(results.confidence || 'medium').charAt(0).toUpperCase() + (results.confidence || 'medium').slice(1)} Confidence
                 </div>
               </div>
             </div>
@@ -259,7 +258,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
             {/* Condition Scores */}
             <div className="space-y-4 mb-6">
               <h4 className="font-medium text-gray-900">Detected Conditions</h4>
-              {Object.entries(results.predictions).map(([condition, score]) => (
+              {Object.entries(results.predictions).map(([condition, score]: [string, any]) => (
                 <div
                   key={condition}
                   className={`p-3 rounded-lg border cursor-pointer transition-all ${
@@ -267,7 +266,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                       ? 'ring-2 ring-blue-500 border-blue-200' 
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
-                  style={{ backgroundColor: getConditionColor(condition, score) }}
+                  style={{ backgroundColor: getConditionColor(condition, score as number) }}
                   onClick={() => setSelectedCondition(selectedCondition === condition ? null : condition)}
                 >
                   <div className="flex items-center justify-between">
@@ -275,12 +274,12 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                       <span className="font-medium text-gray-900 capitalize">
                         {condition.replace('_', ' ')}
                       </span>
-                      {score > 0.5 && <Zap className="h-4 w-4 ml-2 text-amber-500" />}
+                      {(score as number) > 0.5 && <Zap className="h-4 w-4 ml-2 text-amber-500" />}
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-600">{Math.round(score * 100)}%</span>
-                      <div className={`px-2 py-1 rounded text-xs border ${getScoreColor(score)}`}>
-                        {score >= 0.7 ? 'High' : score >= 0.5 ? 'Moderate' : score >= 0.3 ? 'Mild' : 'Low'}
+                      <span className="text-sm text-gray-600">{Math.round((score as number) * 100)}%</span>
+                      <div className={`px-2 py-1 rounded text-xs border ${getScoreColor(score as number)}`}>
+                        {(score as number) >= 0.7 ? 'High' : (score as number) >= 0.5 ? 'Moderate' : (score as number) >= 0.3 ? 'Mild' : 'Low'}
                       </div>
                     </div>
                   </div>
@@ -289,7 +288,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
                         className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all"
-                        style={{ width: `${Math.min(score * 100, 100)}%` }}
+                        style={{ width: `${Math.min((score as number) * 100, 100)}%` }}
                       />
                     </div>
                   </div>
@@ -298,13 +297,13 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
             </div>
 
             {/* Zone Information */}
-            {selectedZone && results.zone_scores[selectedZone] !== undefined && (
+            {selectedZone && results.zone_scores?.[selectedZone] !== undefined && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                 <h4 className="font-medium text-blue-900 mb-2">
                   {selectedZone.charAt(0).toUpperCase() + selectedZone.slice(1).replace('_', ' ')} Zone
                 </h4>
                 <div className="text-sm text-blue-700">
-                  Zone Score: {Math.round(results.zone_scores[selectedZone] * 100)}%
+                  Zone Score: {Math.round((results.zone_scores?.[selectedZone] || 0) * 100)}%
                 </div>
                 <p className="text-sm text-blue-600 mt-1">
                   Click on other landmark zones to compare regional analysis.
@@ -321,7 +320,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
           <h3 className="text-xl font-semibold text-gray-900 mb-6">Detailed Analysis & Recommendations</h3>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {results.explanations.map((explanation, index) => (
+            {results.explanations?.map((explanation: any, index: number) => (
               <div key={index} className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-semibold text-gray-900 capitalize">
@@ -343,7 +342,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                 <div>
                   <h5 className="font-medium text-gray-900 text-sm mb-2">Recommendations:</h5>
                   <ul className="text-sm text-gray-600 space-y-1">
-                    {explanation.recommendations.slice(0, 3).map((rec, i) => (
+                    {explanation.recommendations.slice(0, 3).map((rec: any, i: number) => (
                       <li key={i} className="flex items-start">
                         <span className="text-blue-500 mr-2">•</span>
                         <span>{rec}</span>

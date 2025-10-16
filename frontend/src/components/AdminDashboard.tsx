@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Activity, BarChart3, Users, Database, CheckCircle, AlertCircle, Clock } from 'lucide-react';
+import { ArrowLeft, Activity, BarChart3, Database, CheckCircle, AlertCircle, Clock } from 'lucide-react';
 
 interface ModelStatus {
   model_loaded: boolean;
