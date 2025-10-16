@@ -16,6 +16,16 @@ python-jose[cryptography]>=3.3.0
 passlib[bcrypt]>=1.7.4
 aiofiles>=23.1.0
 
+# Database
+sqlalchemy>=2.0.0
+alembic>=1.11.0
+sqlite3
+psycopg2-binary>=2.9.0  # For PostgreSQL
+
+# Authentication & Security
+email-validator>=2.0.0
+cryptography>=41.0.0
+
 # Data Processing and Analysis
 pandas>=2.0.0
 tqdm>=4.65.0

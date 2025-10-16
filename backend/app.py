@@ -1,18 +1,29 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, BackgroundTasks
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, BackgroundTasks, status, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.staticfiles import StaticFiles
+from sqlalchemy import create_engine, Column, String, DateTime, Float, Text, Boolean, Integer, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session, relationship
+from sqlalchemy.dialects.postgresql import UUID
+from passlib.context import CryptContext
+from jose import JWTError, jwt
+from pydantic import BaseModel, EmailStr
+from email_validator import validate_email, EmailNotValidError
 import os
 import json
 import uuid
 import base64
-from datetime import datetime
-from typing import List, Optional
+from datetime import datetime, timedelta
+from typing import List, Optional, Dict, Any
 import hashlib
 from PIL import Image
 import io
 import numpy as np
 import logging
 from computer_vision import SkinAnalysisCV
+import secrets
 
 app = FastAPI(title="SkinScan Pro API", version="1.0.0")
 
