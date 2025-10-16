@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinScan Pro - AI Skin Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .camera-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 400px;
+            border: 4px dashed rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        .result-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">SkinScan Pro</h1>
+                    <p class="text-sm text-gray-600">AI-Powered Skin Analysis</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Welcome Section -->
+        <div id="welcome-section" class="text-center text-white mb-12">
+            <div class="mb-8">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/20 backdrop-blur-sm text-blue-100 text-sm font-medium mb-6">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    Next-Generation Skin Analysis
+                </div>
+                <h1 class="text-5xl font-bold mb-6">
+                    Understand Your <span class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Skin</span>
+                </h1>
+                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                    Get personalized skin analysis with AI-powered precision. Detect conditions, understand patterns, and receive expert recommendations.
+                </p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="result-card rounded-2xl p-6 text-gray-800">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Smart Capture</h3>
+                    <p class="text-gray-600 text-sm">Advanced guidance for optimal image quality with real-time feedback</p>
+                </div>
+                <div class="result-card rounded-2xl p-6 text-gray-800">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">AI Analysis</h3>
+                    <p class="text-gray-600 text-sm">Detect 6+ skin conditions with explainable AI and confidence scoring</p>
+                </div>
+                <div class="result-card rounded-2xl p-6 text-gray-800">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Expert Guidance</h3>
+                    <p class="text-gray-600 text-sm">Personalized recommendations and optional clinician review</p>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <button id="start-analysis-btn" class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2-2H5a2 2 0 01-2-2V9z"></path>
+                </svg>
+                Start Skin Analysis
+            </button>
+
+            <!-- Privacy Notice -->
+            <p class="text-sm text-blue-200 mt-6 max-w-2xl mx-auto">
+                Your privacy is protected. Images are processed securely and you control data usage. 
+                This tool provides cosmetic recommendations and is not a medical diagnostic device.
+            </p>
+        </div>
+
+        <!-- Camera Section (Hidden Initially) -->
+        <div id="camera-section" class="hidden">
+            <div class="result-card rounded-2xl overflow-hidden max-w-4xl mx-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Capture Your Image</h2>
+                    <p class="text-gray-600">Position your face within the oval guide. Ensure good lighting and hold steady for best results.</p>
+                </div>
+
+                <!-- Camera Preview -->
+                <div class="relative bg-gray-900 aspect-video flex items-center justify-center">
+                    <video id="camera-video" class="w-full h-full object-cover hidden" autoplay muted playsinline></video>
+                    <canvas id="capture-canvas" class="hidden"></canvas>
+                    
+                    <!-- Camera placeholder -->
+                    <div id="camera-placeholder" class="text-white text-center">
+                        <svg class="w-16 h-16 mx-auto mb-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2-2H5a2 2 0 01-2-2V9z"></path>
+                        </svg>
+                        <p class="text-lg">Initializing camera...</p>
+                    </div>
+
+                    <!-- Oval Guide -->
+                    <div class="camera-overlay">
+                        <p class="text-white text-sm font-medium">Position face here</p>
+                    </div>
+                </div>
+
+                <!-- Camera Controls -->
+                <div class="p-6 bg-gray-50">
+                    <div class="flex items-center justify-center space-x-4">
+                        <button id="capture-btn" class="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full hover:shadow-lg transition-all disabled:opacity-50" disabled>
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2-2H5a2 2 0 01-2-2V9z"></path>
+                            </svg>
+                            Capture Photo
+                        </button>
+                        <button id="upload-btn" class="flex items-center px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-full hover:bg-gray-200 transition-all">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            Upload Image
+                        </button>
+                    </div>
+                    <input type="file" id="file-input" accept="image/*" class="hidden">
+                </div>
+            </div>
+
+            <div class="text-center mt-6">
+                <button id="back-btn" class="text-white hover:text-blue-200 transition-colors">
+                    ← Back to Home
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section (Hidden Initially) -->
+        <div id="results-section" class="hidden">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Image with Analysis -->
+                <div class="result-card rounded-2xl overflow-hidden">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Analysis Visualization</h3>
+                    </div>
+                    <div class="p-4">
+                        <img id="analyzed-image" class="w-full rounded-lg" alt="Analyzed image">
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="result-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900">Skin Analysis Results</h3>
+                        <div class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                            High Confidence
+                        </div>
+                    </div>
+
+                    <div id="conditions-list" class="space-y-4 mb-6">
+                        <!-- Conditions will be populated here -->
+                    </div>
+
+                    <div class="border-t pt-6">
+                        <button id="new-analysis-btn" class="w-full flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            New Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical Disclaimer -->
+            <div class="mt-8 bg-amber-50 border border-amber-200 rounded-lg p-4 max-w-4xl mx-auto">
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-amber-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div>
+                        <h4 class="text-amber-800 font-medium mb-1">Important Notice</h4>
+                        <p class="text-amber-700 text-sm">
+                            This analysis is for cosmetic and educational purposes only and should not be used as a substitute 
+                            for professional medical advice. If you notice sudden changes or have concerns about any skin conditions, 
+                            please consult with a qualified dermatologist.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Section (Hidden Initially) -->
+        <div id="loading-section" class="hidden text-center text-white">
+            <div class="relative w-20 h-20 mx-auto mb-6">
+                <div class="absolute inset-0 border-4 border-blue-200 rounded-full animate-ping"></div>
+                <div class="relative w-16 h-16 border-4 border-transparent border-t-blue-600 border-r-purple-600 rounded-full animate-spin mx-auto mt-2"></div>
+            </div>
+            <h2 class="text-2xl font-semibold mb-2">Analyzing your skin...</h2>
+            <p class="text-blue-200 mb-6">Our AI is processing your image with advanced computer vision</p>
+            <div class="max-w-md mx-auto">
+                <div class="w-full bg-white/20 rounded-full h-2">
+                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full animate-pulse" style="width: 75%"></div>
+                </div>
+                <p class="text-sm text-blue-200 mt-2">This usually takes 5-10 seconds</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Global variables
+        let stream = null;
+        let capturedImage = null;
+
+        // DOM elements
+        const welcomeSection = document.getElementById('welcome-section');
+        const cameraSection = document.getElementById('camera-section');
+        const resultsSection = document.getElementById('results-section');
+        const loadingSection = document.getElementById('loading-section');
+        
+        const startAnalysisBtn = document.getElementById('start-analysis-btn');
+        const captureBtn = document.getElementById('capture-btn');
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const backBtn = document.getElementById('back-btn');
+        const newAnalysisBtn = document.getElementById('new-analysis-btn');
+        
+        const cameraVideo = document.getElementById('camera-video');
+        const captureCanvas = document.getElementById('capture-canvas');
+        const cameraPlaceholder = document.getElementById('camera-placeholder');
+        const analyzedImage = document.getElementById('analyzed-image');
+        const conditionsList = document.getElementById('conditions-list');
+
+        // Show section function
+        function showSection(section) {
+            [welcomeSection, cameraSection, resultsSection, loadingSection].forEach(s => s.classList.add('hidden'));
+            section.classList.remove('hidden');
+        }
+
+        // Start analysis
+        startAnalysisBtn.addEventListener('click', async () => {
+            showSection(cameraSection);
+            await initCamera();
+        });
+
+        // Initialize camera
+        async function initCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { width: 640, height: 480, facingMode: 'user' } 
+                });
+                cameraVideo.srcObject = stream;
+                cameraVideo.classList.remove('hidden');
+                cameraPlaceholder.classList.add('hidden');
+                captureBtn.disabled = false;
+            } catch (err) {
+                console.error('Camera access failed:', err);
+                alert('Camera access is required for skin analysis. Please allow camera permissions.');
+            }
+        }
+
+        // Capture photo
+        captureBtn.addEventListener('click', () => {
+            const canvas = captureCanvas;
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = cameraVideo.videoWidth;
+            canvas.height = cameraVideo.videoHeight;
+            ctx.drawImage(cameraVideo, 0, 0);
+            
+            canvas.toBlob((blob) => {
+                capturedImage = canvas.toDataURL('image/jpeg');
+                analyzeImage(blob);
+            }, 'image/jpeg', 0.8);
+        });
+
+        // Upload file
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    capturedImage = e.target.result;
+                    analyzeImage(file);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Analyze image
+        async function analyzeImage(imageBlob) {
+            showSection(loadingSection);
+            
+            try {
+                // Upload image
+                const formData = new FormData();
+                formData.append('file', imageBlob);
+                
+                const uploadResponse = await fetch('http://localhost:8000/api/v1/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!uploadResponse.ok) {
+                    throw new Error('Upload failed');
+                }
+                
+                const uploadResult = await uploadResponse.json();
+                
+                // Run prediction
+                const predictionResponse = await fetch('http://localhost:8000/api/v1/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ file_id: uploadResult.file_id })
+                });
+                
+                if (!predictionResponse.ok) {
+                    throw new Error('Analysis failed');
+                }
+                
+                const results = await predictionResponse.json();
+                displayResults(results);
+                
+            } catch (error) {
+                console.error('Analysis error:', error);
+                alert('Analysis failed. Please try again.');
+                showSection(cameraSection);
+            }
+        }
+
+        // Display results
+        function displayResults(results) {
+            // Set analyzed image
+            analyzedImage.src = capturedImage;
+            
+            // Clear previous results
+            conditionsList.innerHTML = '';
+            
+            // Display conditions
+            Object.entries(results.predictions).forEach(([condition, score]) => {
+                const conditionDiv = document.createElement('div');
+                conditionDiv.className = 'p-3 rounded-lg border border-gray-200';
+                
+                const severity = score >= 0.7 ? 'High' : score >= 0.5 ? 'Moderate' : score >= 0.3 ? 'Mild' : 'Low';
+                const severityColor = score >= 0.7 ? 'text-red-600 bg-red-50' : 
+                                    score >= 0.5 ? 'text-amber-600 bg-amber-50' : 
+                                    score >= 0.3 ? 'text-blue-600 bg-blue-50' : 'text-green-600 bg-green-50';
+                
+                conditionDiv.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-medium text-gray-900 capitalize">${condition.replace('_', ' ')}</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-600">${Math.round(score * 100)}%</span>
+                            <div class="px-2 py-1 rounded text-xs ${severityColor}">${severity}</div>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full" style="width: ${Math.min(score * 100, 100)}%"></div>
+                    </div>
+                `;
+                
+                conditionsList.appendChild(conditionDiv);
+            });
+            
+            showSection(resultsSection);
+        }
+
+        // Back to home
+        backBtn.addEventListener('click', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            showSection(welcomeSection);
+        });
+
+        // New analysis
+        newAnalysisBtn.addEventListener('click', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            showSection(cameraSection);
+            initCamera();
+        });
+    </script>
+</body>
+</html>
